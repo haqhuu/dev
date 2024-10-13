@@ -18,7 +18,7 @@ WORKDIR /usr/local/app
 FROM base AS client-base
 COPY client/package.json client/yarn.lock ./
 RUN --mount=type=cache,id=yarn,target=/usr/local/share/.cache/yarn \
-    yarn install --ignore-engines
+    yarn install
 COPY client/.eslintrc.cjs client/index.html client/vite.config.js ./
 COPY client/public ./public
 COPY client/src ./src
@@ -57,7 +57,7 @@ RUN yarn build
 FROM base AS backend-dev
 COPY backend/package.json backend/yarn.lock ./
 RUN --mount=type=cache,id=yarn,target=/usr/local/share/.cache/yarn \
-    yarn install --frozen-lockfile --ignore-engines
+    yarn install 
 COPY backend/spec ./spec
 COPY backend/src ./src
 CMD ["yarn", "dev"]
@@ -85,7 +85,7 @@ FROM base AS final
 ENV NODE_ENV=production
 COPY --from=test /usr/local/app/package.json /usr/local/app/yarn.lock ./
 RUN --mount=type=cache,id=yarn,target=/usr/local/share/.cache/yarn \
-    yarn install --production --frozen-lockfile --ignore-engines
+    yarn install --production
 COPY backend/src ./src
 COPY --from=client-build /usr/local/app/dist ./src/static
 EXPOSE 3000
