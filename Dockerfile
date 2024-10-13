@@ -1,5 +1,5 @@
 ###################################################
-# Stage: base
+# Stage: base lol
 # 
 # This base stage ensures all other stages are using the same base image
 # and provides common configuration for all stages, such as the working dir.
